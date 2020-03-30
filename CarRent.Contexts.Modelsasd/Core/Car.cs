@@ -1,4 +1,4 @@
-﻿namespace CarRent.Models.DAL
+﻿namespace CarRent.Contexts.Models.Core
 {
     public class Car
     {
@@ -8,7 +8,7 @@
         public Colour Colour { get; set; }
         public string LicensePlate { get; set; }
         public string EngineDescription { get; set; }
-        public int Mileage { get; set; }
+        public double Mileage { get; set; }
 
         public Premise Premise { get; set; }
         public User Tenant { get; set; }

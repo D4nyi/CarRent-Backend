@@ -1,4 +1,4 @@
-﻿using CarRent.Models.DAL;
+﻿using CarRent.Contexts.Models.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 

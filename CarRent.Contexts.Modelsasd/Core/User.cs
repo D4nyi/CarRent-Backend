@@ -1,8 +1,9 @@
-﻿namespace CarRent.Models.DAL
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace CarRent.Contexts.Models.Core
 {
-    public class User
+    public class User : IdentityUser
     {
-        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }

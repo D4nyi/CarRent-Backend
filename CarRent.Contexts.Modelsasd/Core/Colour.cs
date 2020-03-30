@@ -1,4 +1,4 @@
-﻿namespace CarRent.Models.DAL
+﻿namespace CarRent.Contexts.Models.Core
 {
     public enum Colour
     {

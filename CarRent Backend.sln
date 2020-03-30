@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent", "CarRent\CarRent.csproj", "{0E44C9F7-4593-4E82-AF88-097345DF2297}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRent", "CarRent\CarRent.csproj", "{0E44C9F7-4593-4E82-AF88-097345DF2297}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Contexts.SQLiteContext", "SQLiteContext\CarRent.Contexts.SQLiteContext.csproj", "{AE5AABB2-E164-436B-A46D-D95210A8A707}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRent.Contexts.SQLiteContext", "SQLiteContext\CarRent.Contexts.SQLiteContext.csproj", "{AE5AABB2-E164-436B-A46D-D95210A8A707}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{39E39B7B-B92A-4BD8-A7AE-5D2FF1C49A47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Contexts.Interfaces", "Contexs.Interfaces\CarRent.Contexts.Interfaces.csproj", "{2EB1570A-8F45-4BF9-B463-A0F1DFC4A0EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Contexts.Models", "CarRent.Contexts.Modelsasd\CarRent.Contexts.Models.csproj", "{0DA2AA7E-C6DF-4FE9-A6C5-CDADFD993C39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Contexts.Interfaces", "CarRent.Contexts.Interfacesasd\CarRent.Contexts.Interfaces.csproj", "{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,17 +27,22 @@ Global
 		{AE5AABB2-E164-436B-A46D-D95210A8A707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE5AABB2-E164-436B-A46D-D95210A8A707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE5AABB2-E164-436B-A46D-D95210A8A707}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EB1570A-8F45-4BF9-B463-A0F1DFC4A0EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EB1570A-8F45-4BF9-B463-A0F1DFC4A0EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EB1570A-8F45-4BF9-B463-A0F1DFC4A0EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EB1570A-8F45-4BF9-B463-A0F1DFC4A0EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA2AA7E-C6DF-4FE9-A6C5-CDADFD993C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA2AA7E-C6DF-4FE9-A6C5-CDADFD993C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA2AA7E-C6DF-4FE9-A6C5-CDADFD993C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA2AA7E-C6DF-4FE9-A6C5-CDADFD993C39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AE5AABB2-E164-436B-A46D-D95210A8A707} = {39E39B7B-B92A-4BD8-A7AE-5D2FF1C49A47}
-		{2EB1570A-8F45-4BF9-B463-A0F1DFC4A0EF} = {39E39B7B-B92A-4BD8-A7AE-5D2FF1C49A47}
+		{0DA2AA7E-C6DF-4FE9-A6C5-CDADFD993C39} = {39E39B7B-B92A-4BD8-A7AE-5D2FF1C49A47}
+		{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47} = {39E39B7B-B92A-4BD8-A7AE-5D2FF1C49A47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {431FD1AB-33CB-44EE-9215-60E5300EEA95}
