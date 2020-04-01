@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using CarRent.Contexts.Interfaces;
 using CarRent.Contexts.SQLiteContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CarRent
 {
@@ -39,6 +34,34 @@ namespace CarRent
             services.AddScoped<IPremiseRepository, PremiseRepository>();
             services.AddScoped<ICarRepository, CarRepositroy>();
 
+            services.AddAuthentication("AuthToken")
+                .AddJwtBearer("AuthToken", config =>
+                {
+                    byte[] secretBytes = Encoding.UTF8.GetBytes("pepsjvxyjcvpsdjvélyxvéléá");
+
+                    // getting jwt token form query params
+                    /**
+                    config.Events = new JwtBearerEvents()
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            if (context.Request.Query.ContainsKey("token"))
+                            {
+                                context.Token = context.Request.Query["token"];
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+                    */
+
+                    config.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        IssuerSigningKey = new SymmetricSecurityKey(secretBytes),
+                        ValidIssuer = "https://localhost:5001/",
+                        ValidAudience = "https://localhost:5001/"
+                    };
+                });
+
             services.AddControllers();
         }
 
@@ -54,7 +77,8 @@ namespace CarRent
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication()
+               .UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
