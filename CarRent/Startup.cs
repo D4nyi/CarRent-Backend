@@ -26,7 +26,10 @@ namespace CarRent
             services.AddDbContext<SQLiteDbContext>(
                 options =>
                 {
-                    options.UseSqlite("Data Source=CarRentDB.db;");
+                    options.UseSqlite("Data Source=CarRentDB.db;", o =>
+                    {
+                        o.MigrationsAssembly("CarRent.Contexts.SQLiteContext");
+                    });
                 }
             );
 

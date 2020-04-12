@@ -1,5 +1,8 @@
 ﻿using CarRent.Contexts.Models.Core;
+using CarRent.Contexts.SQLiteContext.ModelConfigurations;
+
 using Microsoft.EntityFrameworkCore;
+
 using System.Diagnostics.CodeAnalysis;
 
 namespace CarRent.Contexts.SQLiteContext
@@ -21,6 +24,10 @@ namespace CarRent.Contexts.SQLiteContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new UserConfiguration())
+                .ApplyConfiguration(new PremiseConfiguration())
+                .ApplyConfiguration(new CarConfiguration());
+
             base.OnModelCreating(modelBuilder);
         }
     }
