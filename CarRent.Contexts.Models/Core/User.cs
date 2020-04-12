@@ -8,6 +8,7 @@ namespace CarRent.Contexts.Models.Core
         public string LastName { get; set; }
         public string Address { get; set; }
 
+        public string CarId { get; set; }
         public Car RentedCar { get; set; }
     }
 }

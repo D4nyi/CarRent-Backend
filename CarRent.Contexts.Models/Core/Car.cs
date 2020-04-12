@@ -10,7 +10,10 @@
         public string EngineDescription { get; set; }
         public double Mileage { get; set; }
 
+        public string PremiseId { get; set; }
         public Premise Premise { get; set; }
+
+        public string TenantId { get; set; }
         public User Tenant { get; set; }
     }
 }

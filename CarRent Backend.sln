@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRent.Contexts.SQLiteCont
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{39E39B7B-B92A-4BD8-A7AE-5D2FF1C49A47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Contexts.Models", "CarRent.Contexts.Modelsasd\CarRent.Contexts.Models.csproj", "{0DA2AA7E-C6DF-4FE9-A6C5-CDADFD993C39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Contexts.Models", "CarRent.Contexts.Models\CarRent.Contexts.Models.csproj", "{0DA2AA7E-C6DF-4FE9-A6C5-CDADFD993C39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Contexts.Interfaces", "CarRent.Contexts.Interfacesasd\CarRent.Contexts.Interfaces.csproj", "{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRent.Contexts.Interfaces", "CarRent.Contexts.Interfaces\CarRent.Contexts.Interfaces.csproj", "{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

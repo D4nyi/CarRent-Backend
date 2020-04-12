@@ -1,5 +1,4 @@
 ﻿using CarRent.Contexts.Interfaces;
-
 using Microsoft.EntityFrameworkCore;
 
 using System;

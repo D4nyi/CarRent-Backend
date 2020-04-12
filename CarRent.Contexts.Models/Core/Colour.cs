@@ -2,6 +2,7 @@
 {
     public enum Colour
     {
+        None,
         Red,
         Green,
         Blue,
