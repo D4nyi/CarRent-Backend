@@ -18,6 +18,11 @@ namespace CarRent.Contexts.SQLiteContext.ModelConfigurations
                 .HasMaxLength(50)
                 .IsRequired();
 
+            builder.Property(u => u.Address)
+                .HasMaxLength(300)
+                .IsRequired();
+
+
             builder
                 .HasOne(u => u.RentedCar)
                 .WithOne(c => c.Tenant)

@@ -20,14 +20,20 @@ namespace CarRent.Contexts.SQLiteContext.ModelConfigurations
                 .IsRequired();
 
             builder.Property(c => c.Model)
-                .HasMaxLength(60);
+                .HasMaxLength(60)
+                .IsRequired();
 
             builder.Property(c => c.Brand)
                 .HasMaxLength(60)
                 .IsRequired();
 
             builder.Property(c => c.LicensePlate)
-                .HasMaxLength(30)
+                .HasMaxLength(10)
+                .HasDefaultValue("AAA-000")
+                .IsRequired();
+
+            builder.Property(c => c.Mileage)
+                .HasDefaultValue(default(double))
                 .IsRequired();
 
             builder.Property(c => c.EngineDescription)
