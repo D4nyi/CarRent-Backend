@@ -1,8 +1,6 @@
 ﻿using CarRent.Contexts.Models.Core;
 using CarRent.Contexts.SQLiteContext.ModelConfigurations;
-
 using Microsoft.EntityFrameworkCore;
-
 using System.Diagnostics.CodeAnalysis;
 
 namespace CarRent.Contexts.SQLiteContext
@@ -13,13 +11,9 @@ namespace CarRent.Contexts.SQLiteContext
         public DbSet<Premise> Premises { get; set; }
         public DbSet<Car> Cars { get; set; }
 
-        public SQLiteDbContext([NotNull] DbContextOptions options) : base(options) { }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public SQLiteDbContext([NotNull] DbContextOptions options) : base(options)
         {
-            _ = optionsBuilder.UseSqlite(@"Data Source=CarRentDB.db;");
-
-            base.OnConfiguring(optionsBuilder);
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

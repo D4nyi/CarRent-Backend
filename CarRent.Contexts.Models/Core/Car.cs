@@ -1,7 +1,10 @@
-﻿namespace CarRent.Contexts.Models.Core
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CarRent.Contexts.Models.Core
 {
     public class Car
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
