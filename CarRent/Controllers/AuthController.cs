@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -37,8 +39,8 @@ namespace CarRent.Controllers
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                "https://localhost:5001/",
-                "https://localhost:5001/",
+                Request.Host.ToString(),
+                Request.Host.ToString(),
                 claims,
                 notBefore: DateTime.Now,
                 expires: DateTime.Now.AddHours(8),

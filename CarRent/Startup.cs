@@ -33,6 +33,13 @@ namespace CarRent
                 }
             );
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddScoped<IUserRepository, UserRepositroy>();
             services.AddScoped<IPremiseRepository, PremiseRepository>();
             services.AddScoped<ICarRepository, CarRepositroy>();
@@ -79,6 +86,8 @@ namespace CarRent
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication()
                .UseAuthorization();

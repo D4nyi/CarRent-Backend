@@ -19,26 +19,22 @@ namespace CarRent.Controllers
             _repo = repo;
         }
 
-        // GET: api/Car/5
         [HttpGet("{id}", Name = "Get")]
         public JsonResult Get(string id)
         {
-            return new JsonResult(_repo.Find(id));
+            return new JsonResult(_repo.GetAll());
         }
 
-        // POST: api/Car
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Car/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
