@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRent.Contexts.Models", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRent.Contexts.Interfaces", "CarRent.Contexts.Interfaces\CarRent.Contexts.Interfaces.csproj", "{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{92DAC988-D793-4681-8A60-270BE2BC769F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,10 +35,6 @@ Global
 		{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2A13B90-DB15-4F3D-8F3F-CE852BEAFE47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92DAC988-D793-4681-8A60-270BE2BC769F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92DAC988-D793-4681-8A60-270BE2BC769F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92DAC988-D793-4681-8A60-270BE2BC769F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92DAC988-D793-4681-8A60-270BE2BC769F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

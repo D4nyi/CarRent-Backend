@@ -6,6 +6,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using CarRent.Contexts.Interfaces;
+using CarRent.Contexts.Models.Core;
+using CarRent.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -18,19 +21,35 @@ namespace CarRent.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IUserRepository _repo;
+
+        public AuthController(IUserRepository repo)
+        {
+            _repo = repo;
+        }
+
         [HttpGet("test")]
         public IActionResult Test()
         {
             return Ok("test messages");
         }
-        
-        [HttpGet("get"), AllowAnonymous]
-        public IActionResult Authenticate()
+
+        [HttpGet("login"), AllowAnonymous]
+        public IActionResult Authenticate([FromBody] UserLoginDto user)
         {
+            _repo.Validate
+
+
+            string now = DateTime.Now.ToString();
+
             Claim[] claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, "some_id"),
-                new Claim("granny", "cookie")
+                new Claim(JwtRegisteredClaimNames.Sub, "token"),
+                new Claim(JwtRegisteredClaimNames.Exp, now),
+                new Claim(JwtRegisteredClaimNames.Nbf, now),
+                new Claim(JwtRegisteredClaimNames.Iat, now),
+                new Claim(JwtRegisteredClaimNames.Email, now),
+                new Claim(JwtRegisteredClaimNames.Iat, now),
             };
 
             byte[] secretBytes = Encoding.UTF8.GetBytes("pepsjvxyjcvpsdjvélyxvéléá");
