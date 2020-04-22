@@ -35,21 +35,36 @@ namespace CarRent.Controllers
         }
 
         [HttpGet("login"), AllowAnonymous]
-        public IActionResult Authenticate([FromBody] UserLoginDto user)
+        public IActionResult Authenticate()
         {
-            _repo.Validate
+            //if (userDto is null)
+            //{
+            //    return BadRequest(new ErrorModel
+            //    {
+            //        CauseValue = "null",
+            //        CauseValueName = nameof(userDto),
+            //        Message = "Login parameter is not valid!"
+            //    });
+            //}
 
+            //if (!_repo.Validate(userDto.Email, userDto.Password))
+            //{
+            //    return ValidationProblem("User credentials are incorrect!", "Email or password is incorrect!", 422, "Unprocessable Entity");
+            //}
+
+            //User user = _repo.FindByEmail(userDto.Email);
 
             string now = DateTime.Now.ToString();
+            DateTime expires = DateTime.Now.AddHours(1);
 
             Claim[] claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, "token"),
-                new Claim(JwtRegisteredClaimNames.Exp, now),
+                new Claim(JwtRegisteredClaimNames.Exp, expires.ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, now),
                 new Claim(JwtRegisteredClaimNames.Iat, now),
-                new Claim(JwtRegisteredClaimNames.Email, now),
-                new Claim(JwtRegisteredClaimNames.Iat, now),
+                new Claim(JwtRegisteredClaimNames.Email, "email@example.com"),
+                new Claim("nickname", "UserName")
             };
 
             byte[] secretBytes = Encoding.UTF8.GetBytes("pepsjvxyjcvpsdjvélyxvéléá");
@@ -62,12 +77,12 @@ namespace CarRent.Controllers
                 Request.Host.ToString(),
                 claims,
                 notBefore: DateTime.Now,
-                expires: DateTime.Now.AddHours(8),
+                expires: expires,
                 signingCredentials);
 
-            var jsonToken = new JwtSecurityTokenHandler().WriteToken(token);
+            string jsonToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return Ok(new { token = jsonToken });
+            return Ok(new { token = jsonToken, expires});
         }
     }
 }

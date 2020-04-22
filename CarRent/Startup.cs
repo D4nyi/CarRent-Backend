@@ -1,6 +1,7 @@
 using System.Text;
 using CarRent.Contexts.Interfaces;
 using CarRent.Contexts.SQLiteContext;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -44,31 +45,17 @@ namespace CarRent
             services.AddScoped<IPremiseRepository, PremiseRepository>();
             services.AddScoped<ICarRepository, CarRepositroy>();
 
-            services.AddAuthentication("AuthToken")
-                .AddJwtBearer("AuthToken", config =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config =>
                 {
                     byte[] secretBytes = Encoding.UTF8.GetBytes("pepsjvxyjcvpsdjvélyxvéléá");
-
-                    // getting jwt token form query params
-                    /**
-                    config.Events = new JwtBearerEvents()
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            if (context.Request.Query.ContainsKey("token"))
-                            {
-                                context.Token = context.Request.Query["token"];
-                            }
-                            return Task.CompletedTask;
-                        }
-                    };
-                    */
 
                     config.TokenValidationParameters = new TokenValidationParameters()
                     {
                         IssuerSigningKey = new SymmetricSecurityKey(secretBytes),
-                        ValidIssuer = "https://localhost:5001/",
-                        ValidAudience = "https://localhost:5001/"
+                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = false,
+                        ValidateAudience = false
                     };
                 });
 
