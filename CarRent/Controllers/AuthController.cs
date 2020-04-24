@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using CarRent.Contexts.Interfaces;
+﻿using CarRent.Contexts.Interfaces;
 using CarRent.Contexts.Models.Core;
 using CarRent.Dtos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace CarRent.Controllers
 {
@@ -34,25 +29,25 @@ namespace CarRent.Controllers
             return Ok("test messages");
         }
 
-        [HttpGet("login"), AllowAnonymous]
-        public IActionResult Authenticate()
+        [HttpPost("login"), AllowAnonymous]
+        public IActionResult Authenticate(LoginDto login)
         {
-            //if (userDto is null)
-            //{
-            //    return BadRequest(new ErrorModel
-            //    {
-            //        CauseValue = "null",
-            //        CauseValueName = nameof(userDto),
-            //        Message = "Login parameter is not valid!"
-            //    });
-            //}
+            if (login is null)
+            {
+                return BadRequest(new ErrorModel
+                {
+                    CauseValue = "null",
+                    CauseValueName = nameof(login),
+                    Message = "Login parameter is not valid!"
+                });
+            }
 
-            //if (!_repo.Validate(userDto.Email, userDto.Password))
+            //if (!_repo.Validate(login.Email, login.Password))
             //{
             //    return ValidationProblem("User credentials are incorrect!", "Email or password is incorrect!", 422, "Unprocessable Entity");
             //}
 
-            //User user = _repo.FindByEmail(userDto.Email);
+            User user = _repo.FindByEmail(login.Email);
 
             string now = DateTime.Now.ToString();
             DateTime expires = DateTime.Now.AddHours(1);
@@ -63,7 +58,7 @@ namespace CarRent.Controllers
                 new Claim(JwtRegisteredClaimNames.Exp, expires.ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, now),
                 new Claim(JwtRegisteredClaimNames.Iat, now),
-                new Claim(JwtRegisteredClaimNames.Email, "email@example.com"),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("nickname", "UserName")
             };
 
@@ -82,7 +77,55 @@ namespace CarRent.Controllers
 
             string jsonToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return Ok(new { token = jsonToken, expires});
+            return Ok(new { email = user.Email, name = user.UserName, token = jsonToken, expirationDate = expires });
+        }
+
+        [HttpPost("register"), AllowAnonymous]
+        public IActionResult RegisterUser([FromBody] RegisterDto register)
+        {
+            if (register is null)
+            {
+                return BadRequest(new ErrorModel
+                {
+                    CauseValue = "null",
+                    CauseValueName = nameof(register),
+                    Message = "Register parameter is not valid!"
+                });
+            }
+
+            if (_repo.EmailExists(register.Email))
+            {
+                return BadRequest(new ErrorModel
+                {
+                    CauseValue = "Email",
+                    CauseValueName = nameof(register.Email),
+                    Message = "Email already exists!"
+                });
+            }
+
+
+            if (String.IsNullOrWhiteSpace(register.UserName))
+            {
+                register.UserName = register.FullName.ToLower().Replace(' ', '_');
+            }
+
+            if (_repo.UserNameExists(register.UserName))
+            {
+                register.UserName += register.BirthDate.Year.ToString().Substring(2, 2);
+            }
+
+            User user = _repo.Register(new User
+            {
+                Email = register.Email,
+                Address = register.Address,
+                FirstName = register.FirstName,
+                LastName = register.LastName,
+                UserName = register.UserName
+            }, register.Password);
+
+            _repo.Save();
+
+            return new JsonResult(user);
         }
     }
 }

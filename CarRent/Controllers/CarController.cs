@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CarRent.Contexts.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using CarRent.Contexts.Interfaces;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRent.Controllers
@@ -19,8 +16,8 @@ namespace CarRent.Controllers
             _repo = repo;
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public JsonResult Get(string id)
+        [HttpGet(Name = "Get"), Authorize]
+        public JsonResult Get()
         {
             return new JsonResult(_repo.GetAll());
         }

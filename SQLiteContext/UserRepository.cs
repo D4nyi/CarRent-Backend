@@ -10,9 +10,14 @@ namespace CarRent.Contexts.SQLiteContext
 {
     public class UserRepositroy : Repository<User>, IUserRepository
     {
-        private readonly Lazy<PasswordHasher<User>> _hasher = new Lazy<PasswordHasher<User>>();
+        private readonly Lazy<PasswordHasher<User>> _hasher = new Lazy<PasswordHasher<User>>(() => new PasswordHasher<User>());
 
         public UserRepositroy(SQLiteDbContext context) : base(context) { }
+
+        public bool EmailExists(string email)
+        {
+            return _set.Any(x => x.Email == email);
+        }
 
         public User FindByEmail(string email)
         {
@@ -24,6 +29,11 @@ namespace CarRent.Contexts.SQLiteContext
             user.PasswordHash = _hasher.Value.HashPassword(user, password);
 
             return _set.Add(user).Entity;
+        }
+
+        public bool UserNameExists(string userName)
+        {
+            return _set.Any(x => x.UserName == userName);
         }
 
         public bool Validate(string email, string password)
