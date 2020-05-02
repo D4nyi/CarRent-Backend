@@ -1,4 +1,5 @@
 ﻿using CarRent.Contexts.Models.Core;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -40,12 +41,14 @@ namespace CarRent.Contexts.SQLiteContext.ModelConfigurations
                 .HasMaxLength(200)
                 .IsRequired();
 
-            builder.HasOne(c => c.Tenant)
-                .WithOne(u => u.RentedCar)
-                .HasForeignKey<User>(u => u.CarId)
+            builder
+                .HasOne(c => c.Renting)
+                .WithOne(u => u.Car)
+                .HasForeignKey<Renting>(u => u.CarId)
                 .IsRequired(false);
 
-            builder.HasOne(c => c.Premise)
+            builder
+                .HasOne(c => c.Premise)
                 .WithMany(p => p.Cars)
                 .HasForeignKey(u => u.PremiseId)
                 .IsRequired(false)

@@ -10,6 +10,6 @@ namespace CarRent.Contexts.Models.Core
         public string Name { get; set; }
         public string Address { get; set; }
 
-        public List<Car> Cars { get; set; }
+        public virtual List<Car> Cars { get; set; }
     }
 }

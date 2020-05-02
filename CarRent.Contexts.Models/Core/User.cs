@@ -23,7 +23,7 @@ namespace CarRent.Contexts.Models.Core
             }
         }
 
-        public string CarId { get; set; }
-        public Car RentedCar { get; set; }
+        public string RentingId { get; set; }
+        public virtual Renting Renting { get; set; }
     }
 }

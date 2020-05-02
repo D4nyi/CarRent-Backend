@@ -17,7 +17,7 @@ namespace CarRent
             using IServiceScope scope = host.Services.CreateScope();
             SQLiteDbContext context = scope.ServiceProvider.GetService<SQLiteDbContext>();
 
-            if (context.Users.Any())
+            if (context.Users.Any() || !Program.IsDevelopment)
             {
                 return host;
             }

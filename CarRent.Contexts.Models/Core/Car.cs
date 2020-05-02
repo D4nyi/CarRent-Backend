@@ -14,9 +14,9 @@ namespace CarRent.Contexts.Models.Core
         public double Mileage { get; set; }
 
         public string PremiseId { get; set; }
-        public Premise Premise { get; set; }
+        public virtual Premise Premise { get; set; }
 
-        public string TenantId { get; set; }
-        public User Tenant { get; set; }
+        public string RentingId { get; set; }
+        public virtual Renting Renting { get; set; }
     }
 }

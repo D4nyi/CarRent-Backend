@@ -5,6 +5,8 @@ namespace CarRent
 {
     public class Program
     {
+        public static bool IsDevelopment = false;
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Seed().Run();

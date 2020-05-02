@@ -38,6 +38,11 @@ namespace CarRent.Contexts.SQLiteContext
 
         public bool Validate(string email, string password)
         {
+            if (String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password))
+            {
+                return false;
+            }
+
             User user = _set.FirstOrDefault(f => f.Email == email);
 
             if (user is null)

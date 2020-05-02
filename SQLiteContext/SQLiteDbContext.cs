@@ -10,6 +10,7 @@ namespace CarRent.Contexts.SQLiteContext
         public DbSet<User> Users { get; set; }
         public DbSet<Premise> Premises { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Renting> Rentings { get; set; }
 
         public SQLiteDbContext([NotNull] DbContextOptions options) : base(options)
         {
@@ -20,8 +21,9 @@ namespace CarRent.Contexts.SQLiteContext
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration())
                 .ApplyConfiguration(new PremiseConfiguration())
-                .ApplyConfiguration(new CarConfiguration());
-
+                .ApplyConfiguration(new CarConfiguration())
+                .ApplyConfiguration(new RentingConfiguration());
+            
             base.OnModelCreating(modelBuilder);
         }
     }

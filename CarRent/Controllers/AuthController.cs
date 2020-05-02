@@ -14,19 +14,13 @@ namespace CarRent.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public sealed class AuthController : ControllerBase, IDisposable
     {
         private readonly IUserRepository _repo;
 
         public AuthController(IUserRepository repo)
         {
             _repo = repo;
-        }
-
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok("test messages");
         }
 
         [HttpPost("login"), AllowAnonymous]
@@ -42,10 +36,10 @@ namespace CarRent.Controllers
                 });
             }
 
-            //if (!_repo.Validate(login.Email, login.Password))
-            //{
-            //    return ValidationProblem("User credentials are incorrect!", "Email or password is incorrect!", 422, "Unprocessable Entity");
-            //}
+            if (!_repo.Validate(login.Email, login.Password))
+            {
+                return ValidationProblem("User credentials are incorrect!", "Email or password is incorrect!", 422, "Unprocessable Entity");
+            }
 
             User user = _repo.FindByEmail(login.Email);
 
@@ -103,7 +97,6 @@ namespace CarRent.Controllers
                 });
             }
 
-
             if (String.IsNullOrWhiteSpace(register.UserName))
             {
                 register.UserName = register.FullName.ToLower().Replace(' ', '_');
@@ -120,12 +113,49 @@ namespace CarRent.Controllers
                 Address = register.Address,
                 FirstName = register.FirstName,
                 LastName = register.LastName,
-                UserName = register.UserName
+                UserName = register.UserName,
+                BirthDate = register.BirthDate,
             }, register.Password);
 
             _repo.Save();
 
-            return new JsonResult(user);
+            return new JsonResult(new RegisterDto
+            {
+                Email = user.Email,
+                Address = user.Address,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                BirthDate = user.BirthDate,
+            });
         }
+
+        [HttpPost("test"), AllowAnonymous]
+        public IActionResult Test([FromBody] RegisterDto register)
+        {
+            return Ok();
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _repo.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }
