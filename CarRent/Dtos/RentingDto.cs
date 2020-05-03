@@ -4,7 +4,6 @@ namespace CarRent.Dtos
 {
     public class RentingDto
     {
-        public string UserId { get; set; }
         public string CarId { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

@@ -1,8 +1,7 @@
 ﻿using CarRent.Contexts.Interfaces;
 using CarRent.Contexts.Models.Core;
-
+using CarRent.Exceptions;
 using Microsoft.AspNetCore.Identity;
-
 using System;
 using System.Linq;
 
@@ -22,6 +21,23 @@ namespace CarRent.Contexts.SQLiteContext
         public User FindByEmail(string email)
         {
             return _set.FirstOrDefault(f => f.Email == email);
+        }
+
+        public string GetUserId(string email, string password)
+        {
+            if (String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException("Either of the arguments are invalid");
+            }
+
+            User user = _set.FirstOrDefault(f => f.Email == email);
+
+            if (user is null)
+            {
+                throw new EntryNotFoundException("User not found!");
+            }
+
+            return user.Id;
         }
 
         public User Register(User user, string password)

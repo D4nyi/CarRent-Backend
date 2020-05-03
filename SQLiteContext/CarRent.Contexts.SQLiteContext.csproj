@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CarRent.Contexts.Interfaces\CarRent.Contexts.Interfaces.csproj" />
     <ProjectReference Include="..\CarRent.Contexts.Models\CarRent.Contexts.Models.csproj" />
+    <ProjectReference Include="..\CarRent.Exceptions\CarRent.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

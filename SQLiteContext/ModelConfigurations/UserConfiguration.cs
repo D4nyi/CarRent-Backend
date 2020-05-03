@@ -9,17 +9,25 @@ namespace CarRent.Contexts.SQLiteContext.ModelConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(u => u.Id);
+            builder
+                .HasIndex(u => u.Email)
+                .IsUnique();
 
-            builder.Property(u => u.FirstName)
+            builder
+                .HasKey(u => u.Id);
+
+            builder
+                .Property(u => u.FirstName)
                 .HasMaxLength(50)
                 .IsRequired();
 
-            builder.Property(u => u.LastName)
+            builder
+                .Property(u => u.LastName)
                 .HasMaxLength(50)
                 .IsRequired();
 
-            builder.Property(u => u.Address)
+            builder
+                .Property(u => u.Address)
                 .HasMaxLength(300)
                 .IsRequired();
 

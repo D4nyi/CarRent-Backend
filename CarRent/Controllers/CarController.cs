@@ -1,8 +1,10 @@
 ﻿using CarRent.Contexts.Interfaces;
 using CarRent.Contexts.Models.Core;
 using CarRent.Dtos;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using System;
 
 namespace CarRent.Controllers
@@ -42,7 +44,9 @@ namespace CarRent.Controllers
                 return ValidationProblem("User credentials are incorrect!", "Email or password is incorrect!", 422, "Unprocessable Entity");
             }
 
-            Renting rented = _repo.RentCar(renting.CarId, renting.UserId, renting.Start, renting.End);
+            string userId = userRepo.GetUserId(renting.Email, renting.Password);
+
+            Renting rented = _repo.RentCar(renting.CarId, userId, renting.Start, renting.End);
 
             return new JsonResult(new
             {
@@ -53,8 +57,43 @@ namespace CarRent.Controllers
             });
         }
 
+        [HttpGet("rented/{email}")]
+        public IActionResult Rented(string email, [FromServices] IUserRepository userRepo)
+        {
+            if (String.IsNullOrWhiteSpace(email))
+            {
+                return BadRequest(new ErrorModel
+                {
+                    CauseValueName = nameof(email),
+                    Message = "Email is not valid!"
+                });
+            }
+
+            User user = userRepo.FindByEmail(email);
+
+            if (user.RentingId is null)
+            {
+                return NotFound("Rented car not found!");
+            }
+
+            Car car = _repo.GetCarByRentingId(user.RentingId);
+
+            return Ok(new DetailDto
+            {
+                Id = car.Id,
+                Brand = car.Brand,
+                Model = car.Model,
+                Colour = car.Colour,
+                LicensePlate = car.LicensePlate,
+                EngineDescription = car.EngineDescription,
+                Mileage = car.Mileage,
+                PremiseName = car.Premise.Name + ", " + car.Premise.Address,
+                Rented = car.RentingId == null
+            });
+        }
+
         [HttpPost("cancel")]
-        public IActionResult Cancell([FromBody] RentingDto renting, [FromServices] IUserRepository userRepo)
+        public IActionResult Cancel([FromBody] RentingDto renting, [FromServices] IUserRepository userRepo)
         {
             if (renting is null)
             {
@@ -71,10 +110,13 @@ namespace CarRent.Controllers
                 return ValidationProblem("User credentials are incorrect!", "Email or password is incorrect!", 422, "Unprocessable Entity");
             }
 
-            bool rentExists = _repo.RentingExists(renting.CarId, renting.UserId);
+            string userId = userRepo.GetUserId(renting.Email, renting.Password);
 
-            if (rentExists && _repo.CancellRent(carId: renting.CarId, userId: renting.UserId))
+            bool rentExists = _repo.RentingExists(renting.CarId, userId);
+
+            if (rentExists && _repo.CancellRent(userId: userId))
             {
+                _repo.Save();
                 return Ok("Renting cancelled!");
             }
 
@@ -94,13 +136,24 @@ namespace CarRent.Controllers
                 });
             }
 
-            Car car = _repo.Find(detail.CarId);
+            Car car = _repo.FindAndLoadPremise(detail.CarId);
             if (car is null)
             {
                 return NotFound("Car not found!");
             }
 
-            return Ok(car);
+            return Ok(new DetailDto
+            {
+                Id = car.Id,
+                Brand = car.Brand,
+                Model = car.Model,
+                Colour = car.Colour,
+                LicensePlate = car.LicensePlate,
+                EngineDescription = car.EngineDescription,
+                Mileage = car.Mileage,
+                PremiseName = car.Premise.Name + ", " + car.Premise.Address,
+                Rented = car.RentingId == null
+            });
         }
 
         #region IDisposable Support

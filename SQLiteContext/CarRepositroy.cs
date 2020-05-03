@@ -14,14 +14,13 @@ namespace CarRent.Contexts.SQLiteContext
         {
         }
 
-        public bool CancellRent(string rentId = null, string carId = null, string userId = null)
+        public bool CancellRent(string rentId = null, string userId = null)
         {
             bool rent = String.IsNullOrWhiteSpace(rentId);
-            bool car = String.IsNullOrWhiteSpace(carId);
             bool user = String.IsNullOrWhiteSpace(userId);
-            if (rent || car || user)
+            if (rent || user)
             {
-                throw new ArgumentNullException($"{nameof(rentId)} {nameof(carId)} {nameof(userId)}", "Must provide at least one argument! Every argument is null!");
+                throw new ArgumentNullException($"{nameof(rentId)} {nameof(userId)}", "Must provide at least one argument! Every argument is null!");
             }
 
             DbSet<Renting> rentings = _context.Rentings;
@@ -30,9 +29,9 @@ namespace CarRent.Contexts.SQLiteContext
 
             if (rent)
             {
-                predicate = x => x.UserId == userId && x.CarId == carId;
+                predicate = x => x.UserId == userId;
             }
-            else if (car && user)
+            else if (user)
             {
                 predicate = x => x.Id == rentId;
             }
@@ -51,6 +50,13 @@ namespace CarRent.Contexts.SQLiteContext
             }
 
             return false;
+        }
+
+        public Car FindAndLoadPremise(string id)
+        {
+            return _set
+                .Include(c => c.Premise)
+                .FirstOrDefault(c => c.Id == id);
         }
 
         public List<Car> FindByBrand(string brandName)
@@ -84,6 +90,11 @@ namespace CarRent.Contexts.SQLiteContext
             return _set
                 .Where(x => x.Model == modelName)
                 .ToList();
+        }
+
+        public Car GetCarByRentingId(string rentingId)
+        {
+            return _set.FirstOrDefault(c => c.RentingId == rentingId);
         }
 
         public Renting RentCar(Car car, User user, DateTime start, DateTime end)

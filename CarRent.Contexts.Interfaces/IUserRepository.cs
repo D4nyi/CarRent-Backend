@@ -6,6 +6,7 @@ namespace CarRent.Contexts.Interfaces
     {
         User FindByEmail(string email);
         User Register(User user, string password);
+        string GetUserId(string email, string password);
         bool Validate(string email, string password);
         bool EmailExists(string email);
         bool UserNameExists(string userName);
