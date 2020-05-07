@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using System;
+using System.Collections.Generic;
 
 namespace CarRent.Controllers
 {
@@ -23,7 +24,20 @@ namespace CarRent.Controllers
         [HttpGet, AllowAnonymous]
         public JsonResult Get()
         {
-            return new JsonResult(_repo.GetAll());
+            List<Car> cars = _repo.GetAll(true);
+
+            return new JsonResult(cars.ConvertAll(car => new DetailDto
+            {
+                Id = car.Id,
+                Brand = car.Brand,
+                Model = car.Model,
+                Colour = car.Colour,
+                LicensePlate = car.LicensePlate,
+                EngineDescription = car.EngineDescription,
+                Mileage = car.Mileage,
+                PremiseName = car.Premise.Name + ", " + car.Premise.Address,
+                Rented = car.RentingId != null
+            }));
         }
 
         [HttpPost("rent")]
@@ -47,6 +61,8 @@ namespace CarRent.Controllers
             string userId = userRepo.GetUserId(renting.Email, renting.Password);
 
             Renting rented = _repo.RentCar(renting.CarId, userId, renting.Start, renting.End);
+
+            _repo.Save();
 
             return new JsonResult(new
             {
@@ -73,7 +89,7 @@ namespace CarRent.Controllers
 
             if (user.RentingId is null)
             {
-                return NotFound("Rented car not found!");
+                return NoContent();
             }
 
             Car car = _repo.GetCarByRentingId(user.RentingId);
@@ -88,7 +104,7 @@ namespace CarRent.Controllers
                 EngineDescription = car.EngineDescription,
                 Mileage = car.Mileage,
                 PremiseName = car.Premise.Name + ", " + car.Premise.Address,
-                Rented = car.RentingId == null
+                Rented = car.RentingId != null
             });
         }
 
@@ -120,7 +136,7 @@ namespace CarRent.Controllers
                 return Ok("Renting cancelled!");
             }
 
-            return BadRequest("Renting cannot be cancelled!");
+            return NoContent();
         }
 
         [HttpPost("detail")]
@@ -152,7 +168,7 @@ namespace CarRent.Controllers
                 EngineDescription = car.EngineDescription,
                 Mileage = car.Mileage,
                 PremiseName = car.Premise.Name + ", " + car.Premise.Address,
-                Rented = car.RentingId == null
+                Rented = car.RentingId != null
             });
         }
 

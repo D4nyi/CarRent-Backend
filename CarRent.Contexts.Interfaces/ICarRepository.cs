@@ -7,6 +7,7 @@ namespace CarRent.Contexts.Interfaces
 {
     public interface ICarRepository : IRepository<Car>
     {
+        List<Car> GetAll(bool loadPremise);
         Car FindByLicensePlate(string plateNo);
         Renting RentCar(Car car, User user, DateTime start, DateTime end);
         Renting RentCar(string carId, string userId, DateTime start, DateTime end);

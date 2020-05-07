@@ -70,7 +70,6 @@ namespace CarRent
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                Program.IsDevelopment = true;
             }
 
             app.UseHttpsRedirection();

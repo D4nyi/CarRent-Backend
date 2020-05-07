@@ -44,7 +44,7 @@ namespace CarRent.Contexts.SQLiteContext.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Renting",
+                name: "Rentings",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -100,7 +100,7 @@ namespace CarRent.Contexts.SQLiteContext.Migrations
                 table: "Users");
 
             migrationBuilder.DropTable(
-                name: "Renting");
+                name: "Rentings");
 
             migrationBuilder.DropIndex(
                 name: "IX_Users_RentingId",

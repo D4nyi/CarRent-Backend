@@ -18,7 +18,7 @@ namespace CarRent.Contexts.SQLiteContext
         {
             bool rent = String.IsNullOrWhiteSpace(rentId);
             bool user = String.IsNullOrWhiteSpace(userId);
-            if (rent || user)
+            if (rent && user)
             {
                 throw new ArgumentNullException($"{nameof(rentId)} {nameof(userId)}", "Must provide at least one argument! Every argument is null!");
             }
@@ -92,15 +92,30 @@ namespace CarRent.Contexts.SQLiteContext
                 .ToList();
         }
 
+        public List<Car> GetAll(bool loadPremise)
+        {
+            IQueryable<Car> query = _set.AsQueryable();
+
+            if (loadPremise)
+            {
+                query = query.Include(i => i.Premise);
+            }
+            
+            return query.ToList();
+        }
+
         public Car GetCarByRentingId(string rentingId)
         {
-            return _set.FirstOrDefault(c => c.RentingId == rentingId);
+            return _set
+                .Include(i => i.Premise)
+                .FirstOrDefault(c => c.RentingId == rentingId);
         }
 
         public Renting RentCar(Car car, User user, DateTime start, DateTime end)
         {
             var limit = new DateTime(2020, 1, 1);
-            if (car is null || user is null || start < limit || end > DateTime.Now.AddDays(7).AddMinutes(1))
+            DateTime up = start.AddDays(7).AddMinutes(1);
+            if (car is null || user is null || start < limit || end > up)
             {
                 throw new ArgumentException("Either of the arguments are invalid!");
             }
