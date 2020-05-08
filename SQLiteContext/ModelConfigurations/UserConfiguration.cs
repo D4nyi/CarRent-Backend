@@ -32,6 +32,11 @@ namespace CarRent.Contexts.SQLiteContext.ModelConfigurations
                 .IsRequired();
 
             builder
+                .HasOne(u => u.Role)
+                .WithMany()
+                .HasForeignKey(u => u.RoleId);
+
+            builder
                 .HasOne(u => u.Renting)
                 .WithOne(c => c.User)
                 .HasForeignKey<Renting>(r => r.UserId)

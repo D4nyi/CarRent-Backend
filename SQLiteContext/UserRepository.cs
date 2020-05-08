@@ -2,6 +2,7 @@
 using CarRent.Contexts.Models.Core;
 using CarRent.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -18,9 +19,16 @@ namespace CarRent.Contexts.SQLiteContext
             return _set.Any(x => x.Email == email);
         }
 
-        public User FindByEmail(string email)
+        public User FindByEmail(string email, bool loadRole = false)
         {
-            return _set.FirstOrDefault(f => f.Email == email);
+            IQueryable<User> query = _set.AsQueryable();
+
+            if (loadRole)
+            {
+                query = query.Include(i => i.Role);
+            }
+
+            return query.FirstOrDefault(f => f.Email == email);
         }
 
         public string GetUserId(string email, string password)

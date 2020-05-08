@@ -41,6 +41,10 @@ namespace CarRent.Contexts.SQLiteContext.ModelConfigurations
                 .HasMaxLength(200)
                 .IsRequired();
 
+            builder.Property(c => c.ImagePath)
+                .HasMaxLength(150)
+                .HasDefaultValue("dummyCar.jpg");
+
             builder
                 .HasOne(c => c.Renting)
                 .WithOne(u => u.Car)

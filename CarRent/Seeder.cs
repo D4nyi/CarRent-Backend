@@ -22,6 +22,13 @@ namespace CarRent
                 return host;
             }
 
+            var userRole = new Role("User");
+            var adminRole = new Role("Admin");
+
+            string uRoleId = context.Roles.Add(userRole).Entity.Id;
+            string uRoleId2 = uRoleId;
+            string aRoleId = context.Roles.Add(adminRole).Entity.Id;
+
             var hasher = new PasswordHasher<User>();
             var user1 = new User
             {
@@ -30,9 +37,10 @@ namespace CarRent
                 UserName = "tesztelek",
                 BirthDate = new DateTime(1996, 6, 5),
                 Email = "test@example.com",
-                Address = "Itthon"
+                Address = "Itthon",
+                RoleId = uRoleId
             };
-            user1.PasswordHash = hasher.HashPassword(user1, "123456789A!");
+            user1.PasswordHash = hasher.HashPassword(user1, "123456789aA!");
 
             var user2 = new User
             {
@@ -41,12 +49,26 @@ namespace CarRent
                 UserName = "hans_regenkurt",
                 BirthDate = new DateTime(1978, 10, 9),
                 Email = "hans@example.com",
-                Address = "Otthon"
+                Address = "Otthon",
+                RoleId = uRoleId2
             };
-            user2.PasswordHash = hasher.HashPassword(user2, "123456789A!");
+            user2.PasswordHash = hasher.HashPassword(user2, "123456789aA!");
+
+            var admin = new User
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                UserName = "admin",
+                BirthDate = new DateTime(1992, 4, 20),
+                Email = "admin@example.com",
+                Address = "Somewhere",
+                RoleId = aRoleId
+            };
+            admin.PasswordHash = hasher.HashPassword(admin, "123456789aA!");
 
             context.Users.Add(user1);
             context.Users.Add(user2);
+            context.Users.Add(admin);
 
             var car1 = new Car
             {

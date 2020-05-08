@@ -4,7 +4,8 @@ namespace CarRent.Contexts.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
-        User FindByEmail(string email);
+        User FindByEmail(string email, bool loadRole = false);
+
         User Register(User user, string password);
         string GetUserId(string email, string password);
         bool Validate(string email, string password);

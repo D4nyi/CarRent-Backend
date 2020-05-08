@@ -12,6 +12,7 @@ namespace CarRent.Contexts.Models.Core
         public string LicensePlate { get; set; }
         public string EngineDescription { get; set; }
         public double Mileage { get; set; }
+        public string ImagePath { get; set; }
 
         public string PremiseId { get; set; }
         public virtual Premise Premise { get; set; }

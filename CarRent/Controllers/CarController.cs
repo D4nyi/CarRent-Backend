@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace CarRent.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController/*, Authorize*/]
+    [ApiController, Authorize(Roles = "User")]
     public sealed class CarController : ControllerBase, IDisposable
     {
         private readonly ICarRepository _repo;

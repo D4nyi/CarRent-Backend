@@ -6,6 +6,10 @@ namespace CarRent.Contexts.Models.Core
 {
     public class User : IdentityUser
     {
+        public User() : base() { }
+
+        public User(string userName) : base(userName) { }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override string Id { get => base.Id; set => base.Id = value; }
         public string FirstName { get; set; }
@@ -22,6 +26,9 @@ namespace CarRent.Contexts.Models.Core
                 return BirthDate.Date > today.AddYears(-age) ? age-- : age;
             }
         }
+
+        public string RoleId { get; set; }
+        public Role Role { get; set; }
 
         public string RentingId { get; set; }
         public virtual Renting Renting { get; set; }

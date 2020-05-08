@@ -13,7 +13,7 @@ using System.Text;
 namespace CarRent.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, AllowAnonymous]
     public sealed class AuthController : ControllerBase, IDisposable
     {
         private readonly IUserRepository _repo;
@@ -23,7 +23,7 @@ namespace CarRent.Controllers
             _repo = repo;
         }
 
-        [HttpPost("login"), AllowAnonymous]
+        [HttpPost("login")]
         public IActionResult Authenticate(LoginDto login)
         {
             if (login is null)
@@ -41,7 +41,7 @@ namespace CarRent.Controllers
                 return ValidationProblem("User credentials are incorrect!", "Email or password is incorrect!", 422, "Unprocessable Entity");
             }
 
-            User user = _repo.FindByEmail(login.Email);
+            User user = _repo.FindByEmail(login.Email, true);
 
             string now = DateTime.Now.ToString();
             DateTime expires = DateTime.Now.AddHours(1);
@@ -52,8 +52,9 @@ namespace CarRent.Controllers
                 new Claim(JwtRegisteredClaimNames.Exp, expires.ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, now),
                 new Claim(JwtRegisteredClaimNames.Iat, now),
+                new Claim(ClaimTypes.Role, user.Role.Name),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("nickname", "UserName")
+                new Claim("nickname", user.UserName)
             };
 
             byte[] secretBytes = Encoding.UTF8.GetBytes("pepsjvxyjcvpsdjvélyxvéléá");
@@ -74,7 +75,7 @@ namespace CarRent.Controllers
             return Ok(new { email = user.Email, name = user.UserName, token = jsonToken, expirationDate = expires });
         }
 
-        [HttpPost("register"), AllowAnonymous]
+        [HttpPost("register")]
         public IActionResult RegisterUser([FromBody] RegisterDto register)
         {
             if (register is null)
@@ -128,12 +129,6 @@ namespace CarRent.Controllers
                 UserName = user.UserName,
                 BirthDate = user.BirthDate,
             });
-        }
-
-        [HttpPost("test"), AllowAnonymous]
-        public IActionResult Test([FromBody] RegisterDto register)
-        {
-            return Ok();
         }
 
         #region IDisposable Support

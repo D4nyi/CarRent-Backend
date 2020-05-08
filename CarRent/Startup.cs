@@ -1,4 +1,5 @@
 using CarRent.Contexts.Interfaces;
+using CarRent.Contexts.Models.Core;
 using CarRent.Contexts.SQLiteContext;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
