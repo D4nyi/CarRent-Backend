@@ -15,6 +15,7 @@ namespace CarRent.Contexts.Interfaces
         bool RentingExists(Car car, User user);
         bool RentingExists(string carId, string userId);
         bool CancellRent(string rentId = null, string userId = null);
+        bool CarExists(Car car);
         Car FindAndLoadPremise(string id);
         List<Car> FindByBrand(string brandName);
         List<Car> FindByModel(string modelName);

@@ -1,6 +1,8 @@
 ﻿using CarRent.Contexts.Interfaces;
 using CarRent.Contexts.Models.Core;
+
 using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +54,21 @@ namespace CarRent.Contexts.SQLiteContext
             return false;
         }
 
+        public bool CarExists(Car car)
+        {
+            if (car is null)
+            {
+                throw new ArgumentNullException(nameof(car), "Argument 'car' cannot be null!");
+            }
+
+            return _set
+                .Any(x =>
+                x.Brand == car.Brand &&
+                x.Model == car.Model &&
+                x.Colour == car.Colour &&
+                x.LicensePlate == car.LicensePlate);
+        }
+
         public Car FindAndLoadPremise(string id)
         {
             return _set
@@ -100,7 +117,7 @@ namespace CarRent.Contexts.SQLiteContext
             {
                 query = query.Include(i => i.Premise);
             }
-            
+
             return query.ToList();
         }
 

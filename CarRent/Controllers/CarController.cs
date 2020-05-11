@@ -35,6 +35,7 @@ namespace CarRent.Controllers
                 LicensePlate = car.LicensePlate,
                 EngineDescription = car.EngineDescription,
                 Mileage = car.Mileage,
+                ImagePath = car.ImagePath,
                 PremiseName = car.Premise.Name + ", " + car.Premise.Address,
                 Rented = car.RentingId != null
             }));
@@ -103,6 +104,7 @@ namespace CarRent.Controllers
                 LicensePlate = car.LicensePlate,
                 EngineDescription = car.EngineDescription,
                 Mileage = car.Mileage,
+                ImagePath = car.ImagePath,
                 PremiseName = car.Premise.Name + ", " + car.Premise.Address,
                 Rented = car.RentingId != null
             });
@@ -139,7 +141,7 @@ namespace CarRent.Controllers
             return NoContent();
         }
 
-        [HttpPost("detail")]
+        [HttpPost("detail"), AllowAnonymous]
         public IActionResult Detail([FromBody] DetailRequest detail)
         {
             if (detail is null || String.IsNullOrWhiteSpace(detail.CarId))
@@ -167,6 +169,7 @@ namespace CarRent.Controllers
                 LicensePlate = car.LicensePlate,
                 EngineDescription = car.EngineDescription,
                 Mileage = car.Mileage,
+                ImagePath = car.ImagePath,
                 PremiseName = car.Premise.Name + ", " + car.Premise.Address,
                 Rented = car.RentingId != null
             });
